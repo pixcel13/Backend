@@ -70,10 +70,23 @@ function login(){
 	$telefono_usr = $_POST['telefono_usr'];
 	$password_usr = $_POST['password_usr'];
 
+			if ($nombre_usr == "") {
+			echo "Llene el campo Nombre";
+		}elseif ($correo_usr == "") {
+			echo "Llene el campo Nombre";
+		}elseif ($correo_usr != filter_var($correo_usr, FILTER_VALIDATE_EMAIL)){
+		}elseif ($password_usr == "") {
+			echo "Llene el campo Nombre";
+		}elseif ($telefono_usr == "") {
+			echo "Llene el campo Nombre";
+		}else{
+
+
 	$consulta = "INSERT INTO usuarios VALUES('', '$nombre_usr', '$correo_usr', '$password_usr', '$telefono_usr', 1)";
 	$resultado = mysqli_query($mysqli, $consulta);
 	
 		}
+	}
 
 	function consultar_download(){
 	global $mysqli;
@@ -90,6 +103,7 @@ function login(){
 	global $mysqli;
 	$titulo_download = $_POST['titulo_download'];
 	$subtitulo_download = $_POST['subtitulo_download'];
+
 
 	$consulta = "INSERT INTO download VALUES('', '$titulo_download', '$subtitulo_download')";
 	$resultado = mysqli_query($mysqli, $consulta);
