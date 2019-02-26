@@ -16,6 +16,9 @@ switch ($_POST["accion"]) {
 	case 'insertar_download':
 	insertar_download();
 		break;
+	case 'eliminar_registro':
+	eliminar_registro($_POST["registro"]);
+		break;
 	default:
 			# code...
 	break;
@@ -108,4 +111,19 @@ function login(){
 	$consulta = "INSERT INTO download VALUES('', '$titulo_download', '$subtitulo_download')";
 	$resultado = mysqli_query($mysqli, $consulta);
 	}
+
+	function eliminar_registro($id){
+	global $mysqli;
+	$consulta = "DELETE FROM usuarios WHERE id_usr = $id";
+	$resultado = mysqli_query($mysqli, $consulta);
+
+	if ($resultado) {
+		echo "ya fue el dato karnal";
+	}else{
+		echo "No se quiere ir el dato karnal";
+	}
+
+
+	}
 ?>
+
