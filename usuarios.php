@@ -195,6 +195,8 @@
         $("#list-usuarios tbody").html(template);
       },"JSON");
     }
+
+
     $(document).ready(function(){
       consultar();
       change_view();
@@ -223,8 +225,10 @@
           return false;
         }
       });
-      $.post("includes/_funciones.php", obj, function(){});
+      $.post("includes/_funciones.php", obj, function(){
+      });
     });
+
     $("#list-usuarios").on("click", ".eliminar_registro", function(e){
 
       e.preventDefault();
@@ -243,8 +247,28 @@
       }else{
         alert("No se elimino we");
       }
-
     });
+
+
+      $("#main").on("click", ".editar_registro", function(e){
+
+      e.preventDefault();
+      change_view('insert_data');
+      let id = $(this).data('id'),         //--> solo usare el id mientras ya que no usare los demas datos
+      /*nombre_usr = $("#nombre_usr").val();
+      correo_usr = $("#correo_usr").val();      ->   para traer todos los datos a la consulta
+      telefono_usr = $("#telefono_usr").val();
+      password_usr = $("#password_usr").val();*/
+      obj = {
+        "accion" : "editar_registro",
+        "registro" : id
+      };
+       $.post("includes/_funciones.php", obj, function(respuesta){
+    });
+     });
+
+
+
     $("#main").find(".cancelar").click(function(){
       change_view();
       $("#form_data")[0].reset();

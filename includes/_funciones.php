@@ -19,6 +19,9 @@ switch ($_POST["accion"]) {
 	case 'eliminar_registro':
 	eliminar_registro($_POST["registro"]);
 		break;
+	case 'editar_registro':
+	editar_registro($_POST["registro"]);
+		break;
 	default:
 			# code...
 	break;
@@ -122,8 +125,25 @@ function login(){
 	}else{
 		echo "No se quiere ir el dato karnal";
 	}
+	}
+
+	function editar_registro($id){
+	global $mysqli;
+
+		/*$nombre = $_POST['nombre_usr'];
+		$correo = $_POST['correo_usr'];        -> solo usare el id mientras
+		$telefono = $_POST['telefono_usr'];
+		$pass = $_POST['password_usr'];*/
 
 
+	$consulta = "SELECT * FROM usuarios WHERE id_usr = $id";// use la consulta ya que solo necesito si trae el registro, no necesito cambiar nada
+	$resultado = mysqli_query($mysqli, $consulta);
+
+	if ($resultado) {
+		echo "aqui tienes los datos, $consulta";
+	}else{
+		echo "No los encontre karnal";
+	}
 	}
 ?>
 
