@@ -41,9 +41,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="footer.php">
                 <span data-feather="shopping-cart"></span>
-                Products
+                Footer
               </a>
             </li>
             <li class="nav-item">
@@ -176,8 +176,8 @@
           <td>${e.titulo_download}</td>
           <td>${e.subtitulo_download}</td>
           <td>
-          <a href="#" data-id="${e.id_download}">Editar</a>
-          <a href="#" data-id="${e.id_download}">Eliminar</a>
+          <a href="#" data-id="${e.id_download}" class="editar_download">Editar</a>
+          <a href="#" data-id="${e.id_download}" class="eliminar_download">Eliminar</a>
           </td>
           </tr>
           `;
@@ -209,8 +209,58 @@
           return false;
         }
       });
-      $.post("includes/_funciones.php", obj, function(){});
+
+      if($(this).data("editar") == 1){
+        obj["accion"] = "editar_download";
+        obj["registro"] = $(this).data("id");
+        $(this).text("Guardar").data("editar",0);
+        $("#form_data")[0].reset();
+      }
+      $.post("includes/_funciones.php", obj, function(respuesta){
+        alert(respuesta);
+        change_view();
+        consultar();
+        $("#form_data")[0].reset();
+      });
     });
+
+     $("#list-download").on("click", ".eliminar_download", function(e){
+
+      e.preventDefault();
+      let confirmacion = confirm("Neta quieres borrarlo?");
+      if (confirmacion){
+      let id = $(this).data('id'),
+          obj = {
+            "accion" : "eliminar_download",
+            "registro" : id
+          };
+      $.post("includes/_funciones.php", obj, function(respuesta){
+        alert(respuesta);
+        consultar();
+      });
+
+      }else{
+        alert("No se elimino we");
+      }
+    });
+
+         $('#list-download').on("click",".editar_download", function(e){
+        e.preventDefault();
+        let id = $(this).data('id'),
+            obj = {
+              "accion" : "consultar_registro_download",
+              "registro" : id
+            };
+        $("#form_data")[0].reset();
+        change_view('insert_data');
+        $("#guardar_datos").text("Editar").data("editar",1).data("id",id);
+        $.post("includes/_funciones.php", obj, function(r){
+          $("#titulo_download").val(r.titulo_download);
+          $("#subtitulo_download").val(r.subtitulo_download);
+        }, "JSON");
+            
+      });
+
     $("#main").find(".cancelar").click(function(){
       change_view();
       $("#form_data")[0].reset();

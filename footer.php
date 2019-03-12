@@ -29,7 +29,7 @@
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="usuarios.php">
+              <a class="nav-link" href="usuarios.php">
                 <span data-feather="home"></span>
                 Usuarios <span class="sr-only">(current)</span>
               </a>
@@ -41,7 +41,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="footer.php">
+              <a class="nav-link active" href="footer.php">
                 <span data-feather="shopping-cart"></span>
                 Footer
               </a>
@@ -111,13 +111,20 @@
             </div>
           </div>
         </div>
-        <h2>Usuarios</h2>
+        <h2>Footer</h2>
         <div class="table-responsive view" id="show_data">
-          <table class="table table-striped table-sm" id="list-usuarios">
+          <table class="table table-striped table-sm" id="list-footer">
             <thead>
               <tr>
-                <th>Nombre</th>
-                <th>Teléfono</th>
+                <th>Título_dirección</th>
+                <th>Dirección</th>
+                <th>Título_compartir</th>
+                <th>Facebook</th>
+                <th>LinkedIn</th>
+                <th>Twitter</th>
+                <th>Título_about</th>
+                <th>About</th>
+                <th>Copyright</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -125,31 +132,44 @@
           </table>
         </div>
         <div id="insert_data" class="view">
-          <form action="#" id="form_data" enctype="multipart/form_data">
+          <form action="#" id="form_data">
             <div class="row">
               <div class="col">
                 <div class="form-group">
-                  <label for="nombre">Nombre</label>
-                  <input type="text" id="nombre_usr" name="nombre" class="form-control">
+                  <label for="nombre">Título dirección</label>
+                  <input type="text" id="titulo_direccion" name="titulo" class="form-control">
                 </div>
                 <div class="form-group">
-                  <label for="correo">Correo Electrónico</label>
-                  <input type="email" id="correo_usr" name="correo" class="form-control">
+                  <label for="correo">Dirección</label>
+                  <input type="text" id="direccion" name="subtitulo" class="form-control">
                 </div>
                 <div class="form-group">
-                  <input type="file" name="foto" id="foto">
-                  <input type="text" name="ruta" id="ruta">
-                </div>
-                <div id="preview"></div>
-              </div>
-              <div class="col">
-                <div class="form-group">
-                  <label for="telefono">Teléfono</label>
-                  <input type="tel" id="telefono_usr" name="telefono" class="form-control">
+                  <label for="correo">Título compartir</label>
+                  <input type="text" id="titulo_compartir" name="subtitulo" class="form-control">
                 </div>
                 <div class="form-group">
-                  <label for="password">Contraseña</label>
-                  <input type="password" id="password_usr" name="password" class="form-control">
+                  <label for="correo">Facebook</label>
+                  <input type="text" id="link_fb" name="subtitulo" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="correo">LinkedIn</label>
+                  <input type="text" id="link_ld" name="subtitulo" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="correo">Twitter</label>
+                  <input type="text" id="link_tw" name="subtitulo" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="correo">Título about</label>
+                  <input type="text" id="titulo_about" name="subtitulo" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="correo">Descripción about</label>
+                  <input type="text" id="about" name="subtitulo" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="correo">Copyright</label>
+                  <input type="text" id="copyright" name="subtitulo" class="form-control">
                 </div>
               </div>
             </div>
@@ -181,27 +201,32 @@
     }
     function consultar(){
       let obj = {
-        "accion" : "consultar_usuarios"
+        "accion" : "consultar_footer"
       };
       $.post("includes/_funciones.php", obj, function(respuesta){
         let template = ``;
         $.each(respuesta,function(i,e){
           template += `
           <tr>
-          <td>${e.nombre_usr}</td>
-          <td>${e.telefono_usr}</td>
+          <td>${e.titulo_direccion}</td>
+          <td>${e.direccion}</td>
+          <td>${e.titulo_compartir}</td>
+          <td>${e.link_fb}</td>
+          <td>${e.link_ld}</td>
+          <td>${e.link_tw }</td>
+          <td>${e.titulo_about}</td>
+          <td>${e.about}</td>
+          <td>${e.copyright}</td>
           <td>
-          <a href="#" data-id="${e.id_usr}" class="editar_registro">Editar</a>
-          <a href="#" data-id="${e.id_usr}" class="eliminar_registro">Eliminar</a>
+          <a href="#" data-id="${e.id_footer}" class="editar_footer">Editar</a>
+          <a href="#" data-id="${e.id_footer}" class="eliminar_footer">Eliminar</a>
           </td>
           </tr>
           `;
         });
-        $("#list-usuarios tbody").html(template);
+        $("#list-footer tbody").html(template);
       },"JSON");
     }
-
-
     $(document).ready(function(){
       consultar();
       change_view();
@@ -210,16 +235,26 @@
       change_view('insert_data');
     });
     $("#guardar_datos").click(function(){
-      let nombre_usr = $("#nombre_usr").val();
-      let correo_usr = $("#correo_usr").val();
-      let telefono_usr = $("#telefono_usr").val();
-      let password_usr = $("#password_usr").val();
+      let titulo_direccion = $("#titulo_direccion").val();
+      let direccion = $("#direccion").val();
+      let titulo_compartir = $("#titulo_compartir").val();
+      let link_fb = $("#link_fb").val();
+      let link_ld = $("#link_ld").val();
+      let link_tw = $("#link_tw").val();
+      let titulo_about = $("#titulo_about").val();
+      let about = $("#about").val();
+      let copyright = $("#copyright").val();
       let obj ={
-        "accion" : "insertar_usuarios",
-        "nombre_usr" : nombre_usr,
-        "correo_usr" : correo_usr,
-        "telefono_usr" : telefono_usr,
-        "password_usr" : password_usr
+        "accion" : "insertar_footer",
+        "titulo_direccion" : titulo_direccion,
+        "direccion" : direccion,
+        "titulo_compartir" : titulo_compartir,
+        "link_fb" : link_fb,
+        "link_ld" : link_ld,
+        "link_tw" : link_tw,
+        "titulo_about" : titulo_about,
+        "about" : about,
+        "copyright" : copyright
       }
       $("#form_data").find("input").each(function(){
         $(this).removeClass("has-error");
@@ -230,13 +265,13 @@
           return false;
         }
       });
+
       if($(this).data("editar") == 1){
-        obj["accion"] = "editar_registro";
+        obj["accion"] = "editar_footer";
         obj["registro"] = $(this).data("id");
         $(this).text("Guardar").data("editar",0);
         $("#form_data")[0].reset();
       }
-
       $.post("includes/_funciones.php", obj, function(respuesta){
         alert(respuesta);
         change_view();
@@ -245,14 +280,14 @@
       });
     });
 
-    $("#list-usuarios").on("click", ".eliminar_registro", function(e){
+     $("#list-footer").on("click", ".eliminar_footer", function(e){
 
       e.preventDefault();
       let confirmacion = confirm("Neta quieres borrarlo?");
       if (confirmacion){
       let id = $(this).data('id'),
           obj = {
-            "accion" : "eliminar_registro",
+            "accion" : "eliminar_footer",
             "registro" : id
           };
       $.post("includes/_funciones.php", obj, function(respuesta){
@@ -265,45 +300,29 @@
       }
     });
 
-   /* $("#foto").on("change", function (e){
-      
-      $.ajax({
-        url: "includes/_funciones",
-        type: "POST",
-        data: obj,
-        contentType: false,
-        processData: false,
-        sucees: function (datos){
-          console.log(datos);
-        }
-      });
-    });*/
-
-
-
-
-
-
-    $('#list-usuarios').on("click",".editar_registro", function(e){
+         $('#list-footer').on("click",".editar_footer", function(e){
         e.preventDefault();
         let id = $(this).data('id'),
             obj = {
-              "accion" : "consultar_registro",
+              "accion" : "consultar_registro_footer",
               "registro" : id
             };
         $("#form_data")[0].reset();
         change_view('insert_data');
         $("#guardar_datos").text("Editar").data("editar",1).data("id",id);
         $.post("includes/_funciones.php", obj, function(r){
-          $("#nombre_usr").val(r.nombre_usr);
-          $("#correo_usr").val(r.correo_usr);
-          $("#telefono_usr").val(r.telefono_usr);
-          $("#password_usr").val(r.password_usr);
+          $("#titulo_direccion").val(r.titulo_direccion);
+          $("#direccion").val(r.direccion);
+          $("#titulo_compartir").val(r.titulo_compartir);
+          $("#link_fb").val(r.link_fb);
+          $("#link_ld").val(r.link_ld);
+          $("#link_tw").val(r.link_tw);
+          $("#titulo_about").val(r.titulo_about);
+          $("#about").val(r.about);
+          $("#copyright").val(r.copyright);
         }, "JSON");
             
       });
-
-
 
     $("#main").find(".cancelar").click(function(){
       change_view();
